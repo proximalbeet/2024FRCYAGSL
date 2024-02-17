@@ -13,7 +13,23 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
+
+  public static final class SwerveConstants {
+  
+  /** Max speed of the robot, in meters per second. */
+  public static final double kMaxSpeed = 1;
+
+  /** Max rot speed of drive base in radians per second. */
+  public static final double kRotSpeed = 1;
+  }
+  
+
+  public static class OIConstants {
     public static final int kDriverControllerPort = 0;
+
+    /** Deadband for the driving axes, 0.5 = 5% */
+    public static final double kDriveDeadband = 0.05;
+    /** Deadband for the turning axis, 0.5 = 5% */
+    public static final double kRotDeadband = 0.05;
   }
 }
