@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -17,19 +23,46 @@ public final class Constants {
   public static final class SwerveConstants {
   
   /** Max speed of the robot, in meters per second. */
-  public static final double kMaxSpeed = 1;
+  public static final double kMaxSpeed = 10;
 
   /** Max rot speed of drive base in radians per second. */
-  public static final double kRotSpeed = 1;
+  public static final double kRotSpeed = 10;
+
+  // public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+  //       public static final double kDriveMotorGearRatio = 1 / 6.75;
+  //       public static final double kTurningMotorGearRatio = 70 / 150;
   }
   
 
   public static class OIConstants {
     public static final int kDriverControllerPort = 0;
 
-    /** Deadband for the driving axes, 0.5 = 5% */
+    /** Deadband for the driving axes, 0.5 = 50% */
     public static final double kDriveDeadband = 0.05;
-    /** Deadband for the turning axis, 0.5 = 5% */
+    /** Deadband for the turning axis, 0.5 = 50% */
     public static final double kRotDeadband = 0.05;
   }
+
+    // Pathplanner
+  public static final class Swerve {
+        /** Swerve drive max speed, in meters per second. */
+        public static final double MAX_SPEED = 0.5;
+        /** Swerve drive max angular speed, in radians per second. */
+        public static final double MAX_ANGULAR_SPEED = 0.05 * (2 * Math.PI);
+
+        //TODO! Configure the path follower
+        public static final HolonomicPathFollowerConfig PATH_PLANNER_CONFIG = 
+            new HolonomicPathFollowerConfig(
+                // Best Values So Far: kP: 3.14, kI: 0, kD: 0.1
+                /*
+                new PIDConstants(4.5, 0, 0.05),
+                new PIDConstants(3.14, 0, 0.1),
+                */
+                new PIDConstants(1, 0, 0.01),
+                new PIDConstants(1, 0, 0.01),
+                MAX_SPEED,
+                14.778574017813,
+                new ReplanningConfig(false, true)
+            );
+    }
 }

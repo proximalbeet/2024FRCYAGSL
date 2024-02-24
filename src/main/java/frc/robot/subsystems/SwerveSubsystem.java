@@ -14,12 +14,12 @@ import swervelib.parser.SwerveParser;
 
 public class SwerveSubsystem extends SubsystemBase {
 
-  public SwerveDrive swerveDrive;
+  public SwerveDrive inner;
 
   /** Creates a new ExampleSubsystem. */
   public SwerveSubsystem() {
     try {
-      swerveDrive = new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve")).createSwerveDrive(Constants.SwerveConstants.kMaxSpeed);
+      inner = new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve")).createSwerveDrive(Constants.SwerveConstants.kMaxSpeed);
     } catch(Exception e) {
       throw new RuntimeException(e);
     }

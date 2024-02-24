@@ -40,7 +40,7 @@ public class SwerveJoystickCmd extends Command {
   @Override
   public void initialize() {
     // Set the motors to coast
-    swerve.swerveDrive.setMotorIdleMode(false);
+    swerve.inner.setMotorIdleMode(false);
     //limelight.initialize();
   }
 
@@ -63,8 +63,8 @@ public class SwerveJoystickCmd extends Command {
     double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.SwerveConstants.kMaxSpeed;
     double correctedTurnTheta = turnTheta.getAsDouble() * Constants.SwerveConstants.kRotSpeed;
 
-    ChassisSpeeds desiredSpeeds = swerve.swerveDrive.swerveController.getRawTargetSpeeds(correctedMoveX, correctedMoveY, correctedTurnTheta);
-    swerve.swerveDrive.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
+    ChassisSpeeds desiredSpeeds = swerve.inner.swerveController.getRawTargetSpeeds(correctedMoveX, correctedMoveY, correctedTurnTheta);
+    swerve.inner.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
 
     // Vision measurement
     // double timestamp = Timer.getFPGATimestamp();

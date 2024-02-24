@@ -5,20 +5,19 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveDrive = new SwerveSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick driverController =
@@ -51,12 +51,16 @@ public class RobotContainer {
    */
   private void configureBindings() {
     swerveDrive.setDefaultCommand(new SwerveJoystickCmd(swerveDrive,
+      //TODO! move port numbers to constants
       // Invert X Axis - WPIlib is forward-positive, joystick is down-positive
-      axisDeadband(driverController, Joystick.AxisType.kX.value, Constants.OIConstants.kDriveDeadband, true),
+      axisDeadband(driverController, 1, Constants.OIConstants.kDriveDeadband, true),
       // Invert Y Axis - WPILib is left-positive, joystick is right-positive
-      axisDeadband(driverController, Joystick.AxisType.kY.value, Constants.OIConstants.kDriveDeadband, true),
-      axisDeadband(driverController, Joystick.AxisType.kZ.value, Constants.OIConstants.kRotDeadband, false)
+      axisDeadband(driverController, 0, Constants.OIConstants.kDriveDeadband, true),
+      axisDeadband(driverController, 2, Constants.OIConstants.kRotDeadband, true)
+
+
     ));
+          //new JoystickButton(driverController, Constants.OIConstants.PresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
   }
 
   private DoubleSupplier axisDeadband(CommandGenericHID controller, int axis, double deadband, boolean inverted) {

@@ -20,7 +20,6 @@ public class ArmSubsystem extends SubsystemBase {
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   SparkPIDController armPID;
-  public double desiredArmPosition;
   public ArmSubsystem(){
         ArmMotor = new CANSparkMax(9, MotorType.kBrushless);
         throughBoreAbsoluteEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
@@ -70,7 +69,8 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
  
-   SmartDashboard.putNumber("armPosition", throughBoreAbsoluteEncoder.getPosition());
+   //SmartDashboard.putNumber("armPosition", getArmPosition());
+    SmartDashboard.putNumber("armPosition", java.time.Instant.now().getEpochSecond());
   }
 
   public void driveArm(double position) {
