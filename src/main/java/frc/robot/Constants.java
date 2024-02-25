@@ -37,7 +37,8 @@ public final class Constants {
     public static final int kRotateToApriltagButton = 2;
     //TODO find better buttons
     public static final int kPickupButton = 10;
-        public static final int kShootoutButton = 11;
+    public static final int kShootoutButton = 11;
+    public static final int kLimelightArmButton = 12;
 
 
     public static final int kDriveXAxis = 1;

@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LimelightArmCmd;
 import frc.robot.commands.PickupCmd;
+import frc.robot.commands.RotateToAprilTagCmd;
 import frc.robot.commands.ShooterOutCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.ZeroGyroCmd;
@@ -95,11 +96,13 @@ public class RobotContainer {
       driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
       
 
-      driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
+      driverController2.button(Constants.OIConstants.kLimelightArmButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
 
+      //TODO fix this later
+      //driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new RotateToAprilTagCmd(limelightSubsystem, swerveDrive);
      
       driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
       // new JoystickButton(driverController2, Constants.OIConstants.kShootoutButton)
