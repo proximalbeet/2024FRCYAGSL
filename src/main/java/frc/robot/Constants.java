@@ -98,5 +98,9 @@ public final class Constants {
         public static final double kRedSpeakerZ = 2.032004;
       }
 
+          public static final class Lighting {
+            public static final int lightPort = 0;
+          }
+
 
 }
