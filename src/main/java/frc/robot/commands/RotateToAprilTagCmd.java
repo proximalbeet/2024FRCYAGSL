@@ -12,7 +12,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveController;
 import frc.robot.Constants;
 import frc.robot.subsystems.LimelightSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 
 public class RotateToAprilTagCmd extends Command {
   /** Creates a new RotateToAprilTagCmd. */
@@ -50,9 +49,9 @@ public class RotateToAprilTagCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.SwerveConstants.kMaxSpeed;
-    double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.SwerveConstants.kMaxSpeed;
-    double correctedTurnTheta = turnTheta.getAsDouble() * Constants.SwerveConstants.kRotSpeed;
+    double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
+    double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
+    double correctedTurnTheta = turnTheta.getAsDouble() * Constants.Swerve.kRotSpeed;
 
     // Gets apriltag position, if the Limelight returns null (tag not found), return early
     desiredPose = -limelight.getTargetPose(4); //4 is red, blue is 7

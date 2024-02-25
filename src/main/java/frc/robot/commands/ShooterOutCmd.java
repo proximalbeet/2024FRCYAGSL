@@ -5,11 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class LimelightShooterCmd extends Command {
-  /** Creates a new LimelightShooterCmd. */
-  public LimelightShooterCmd() {
+public class ShooterOutCmd extends Command {
+  /** Creates a new ShooterOutCmd. */
+  public ShooterOutCmd(ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -18,11 +21,17 @@ public class LimelightShooterCmd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    //TODO fix this
+    // ActivateShooter(Constants.Shooter.leftShooterMotorOut,Constants.Shooter.rightShooterMotorOut);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    //TODO fix this also
+    //DeactivateShooter();
+  }
 
   // Returns true when the command should end.
   @Override

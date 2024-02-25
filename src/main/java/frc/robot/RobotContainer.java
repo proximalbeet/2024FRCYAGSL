@@ -5,16 +5,30 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.LimelightArmCmd;
+import frc.robot.commands.PickupCmd;
+import frc.robot.commands.ShooterOutCmd;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.ZeroGyroCmd;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.util.function.DoubleSupplier;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -26,18 +40,33 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
+  // Autonomous chooser for SmartDashboard
+  private SendableChooser<Command> autonChooser = new SendableChooser<>();
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveDrive = new SwerveSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick driverController =
       new CommandJoystick(OIConstants.kDriverControllerPort);
+    
+    private final CommandJoystick driverController2 =
+      new CommandJoystick(OIConstants.kDriverControllerPort2);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    if(DriverStation.getAlliance().isPresent()) {
+      SwerveSubsystem.allianceColor = DriverStation.getAlliance().get();
+    } else {
+      SwerveSubsystem.allianceColor = null;
+    }
+
     // Configure the trigger bindings
     configureBindings();
+    configureAutonomous();
   }
 
   /**
@@ -58,9 +87,26 @@ public class RobotContainer {
       axisDeadband(driverController, 0, Constants.OIConstants.kDriveDeadband, true),
       axisDeadband(driverController, 2, Constants.OIConstants.kRotDeadband, true)
 
-
+      
     ));
           //new JoystickButton(driverController, Constants.OIConstants.PresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
+      driverController.button(Constants.OIConstants.kRotateToApriltagButton).onTrue(new ZeroGyroCmd(swerveDrive));
+
+      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
+      
+
+      driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
+      axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
+      axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
+      ));
+
+     
+      driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
+      // new JoystickButton(driverController2, Constants.OIConstants.kShootoutButton)
+      //                         .whileTrue(new ActivateShooter(
+      //                                 shooterSubsystem, 
+      //                                 () -> Constants.ShooterConstants.leftPowerN, 
+      //                                 () -> Constants.ShooterConstants.rightPowerN));
   }
 
   private DoubleSupplier axisDeadband(CommandGenericHID controller, int axis, double deadband, boolean inverted) {
@@ -70,6 +116,26 @@ public class RobotContainer {
       return (Math.abs(axisOut) > deadband) ? axisOut * invertedMultiplier : 0;
     }; 
   }
+
+ // Set up the autonomous routines
+ private void configureAutonomous() {
+  // Register named commands for pathplanner
+  // This must be done before initializing autos
+  NamedCommands.registerCommand("PickupCmd", new PickupCmd(armSubsystem, shooterSubsystem));
+  //TODO fix this command later
+  // NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive));
+
+  //TODO! Add more auto choices here
+  autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
+  
+  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
+  autonChooser.addOption("Small Circle Test", new PathPlannerAuto("First Auto"));
+  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
+  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
+
+
+  SmartDashboard.putData("autonDropdown", autonChooser);
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

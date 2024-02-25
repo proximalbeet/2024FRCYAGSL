@@ -47,6 +47,12 @@
           "data": {
             "name": "LimelightShooterCmd"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot 1, pickup 2"
+          }
         }
       ]
     }

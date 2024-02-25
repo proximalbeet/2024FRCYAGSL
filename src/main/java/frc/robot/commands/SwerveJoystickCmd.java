@@ -59,9 +59,9 @@ public class SwerveJoystickCmd extends Command {
     // SmartDashboard.putNumber("poseYaw", pose.getRotation().getDegrees());
 
     // Cube input of XY movement, multiply by max speed
-    double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.SwerveConstants.kMaxSpeed;
-    double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.SwerveConstants.kMaxSpeed;
-    double correctedTurnTheta = turnTheta.getAsDouble() * Constants.SwerveConstants.kRotSpeed;
+    double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
+    double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
+    double correctedTurnTheta = turnTheta.getAsDouble() * Constants.Swerve.kRotSpeed;
 
     ChassisSpeeds desiredSpeeds = swerve.inner.swerveController.getRawTargetSpeeds(correctedMoveX, correctedMoveY, correctedTurnTheta);
     swerve.inner.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
