@@ -43,6 +43,7 @@ public final class Constants {
 
     public static final int kDriveXAxis = 1;
     public static final int kDriveYAxis = 0;
+    public static final int kRotAxis = 2;
 
     /** Deadband for the driving axes, 0.5 = 50% */
     public static final double kDriveDeadband = 0.05;

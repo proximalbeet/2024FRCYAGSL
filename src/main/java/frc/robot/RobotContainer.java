@@ -16,6 +16,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
+
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -79,12 +81,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
     swerveDrive.setDefaultCommand(new SwerveJoystickCmd(swerveDrive,
-      //TODO! move port numbers to constants
       // Invert X Axis - WPIlib is forward-positive, joystick is down-positive
-      axisDeadband(driverController, 1, Constants.OIConstants.kDriveDeadband, true),
+      axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true),
       // Invert Y Axis - WPILib is left-positive, joystick is right-positive
-      axisDeadband(driverController, 0, Constants.OIConstants.kDriveDeadband, true),
-      axisDeadband(driverController, 2, Constants.OIConstants.kRotDeadband, true)
+      axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true),
+      axisDeadband(driverController, Constants.OIConstants.kRotAxis, Constants.OIConstants.kRotDeadband, true)
 
       
     ));
@@ -98,8 +99,11 @@ public class RobotContainer {
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
 
-      //TODO fix this later
-      //driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new RotateToAprilTagCmd(limelightSubsystem, swerveDrive);
+      driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new RotateToAprilTagCmd(swerveDrive, limelightSubsystem, 
+      axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
+      axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true),
+      axisDeadband(driverController, Constants.OIConstants.kRotAxis, Constants.OIConstants.kDriveDeadband, true)
+      ));
      
       driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
       // new JoystickButton(driverController2, Constants.OIConstants.kShootoutButton)
@@ -122,8 +126,10 @@ public class RobotContainer {
   // Register named commands for pathplanner
   // This must be done before initializing autos
   NamedCommands.registerCommand("PickupCmd", new PickupCmd(armSubsystem, shooterSubsystem));
-  //TODO fix this command later
-  //NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive));
+  NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive, 
+      axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
+      axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
+      ));
   NamedCommands.registerCommand("ShooterOutCmd", new ShooterOutCmd(shooterSubsystem));
   NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
 

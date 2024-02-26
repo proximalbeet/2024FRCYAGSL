@@ -34,6 +34,7 @@ public class PickupCmd extends Command {
   @Override
   public void end(boolean interrupted) {
     //TODO find a spot for the arm to sit at when command is done
+    shooterSubsystem.DeactivateShooter();
     armSubsystem.driveArm(1000);
 
   }

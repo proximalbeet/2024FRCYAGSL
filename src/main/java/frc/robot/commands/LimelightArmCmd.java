@@ -7,7 +7,7 @@ package frc.robot.commands;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+//import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,7 +34,8 @@ public class LimelightArmCmd extends Command {
   SwerveIMU imu;
   Pose2d measuredPose;
   Pose2d pose;
-  private DoubleSupplier moveX, moveY, turnTheta;
+  //private DoubleSupplier moveX, moveY, turnTheta;
+  private DoubleSupplier moveX, moveY;
   double lastUpdateTime;
 
   /** Drive command for aiming at the speaker while moving. */
@@ -53,7 +54,7 @@ public class LimelightArmCmd extends Command {
     addRequirements(limelight, swerveDrive);
   }
 
-  private final TrapezoidProfile.Constraints AIM_PID_CONSTRAINT = new TrapezoidProfile.Constraints(2160.0, 2160.0);
+  //private final TrapezoidProfile.Constraints AIM_PID_CONSTRAINT = new TrapezoidProfile.Constraints(2160.0, 2160.0);
 
   /**
   // Standard deviation for apriltag position setting
@@ -69,7 +70,6 @@ public class LimelightArmCmd extends Command {
   @Override
   public void execute() {
 
-    //TODO figure out how to use this to move the arm
     
     double timestamp = Timer.getFPGATimestamp() - limelight.getLatency();
     measuredPose = limelight.getMeasuredPose();
@@ -120,8 +120,8 @@ public class LimelightArmCmd extends Command {
     SmartDashboard.putNumber("offsetZ", offsetZ);
 
     // calculate direct distance and ground distance to the speaker
-    double floorDistance = Math.hypot(offsetX, offsetY);
-    double directDistance = Math.hypot(floorDistance, offsetZ);
+    //double floorDistance = Math.hypot(offsetX, offsetY);
+    //double directDistance = Math.hypot(floorDistance, offsetZ);
 
     // calculate pitch and yaw from the shooter to the speaker
     Rotation2d desiredYaw = new Rotation2d(offsetX, offsetY);
@@ -138,7 +138,6 @@ public class LimelightArmCmd extends Command {
     );
     swerveDrive.inner.drive(chassisSpeeds);
     }
-
   }
 
   // Called once the command ends or is interrupted.

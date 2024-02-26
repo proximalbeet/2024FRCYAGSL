@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -25,7 +28,7 @@ public class RotateToAprilTagCmd extends Command {
 
   
     /** Beta command for aiming at an apriltag. */
-  public void RotateToApriltag(SwerveSubsystem swerveDrive, LimelightSubsystem limelight, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier rotate) {
+  public RotateToAprilTagCmd(SwerveSubsystem swerveDrive, LimelightSubsystem limelight, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier rotate) {
     this.swerveDrive = swerveDrive;
     this.limelight = limelight;
   
@@ -53,8 +56,21 @@ public class RotateToAprilTagCmd extends Command {
     double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
     double correctedTurnTheta = turnTheta.getAsDouble() * Constants.Swerve.kRotSpeed;
 
-    // Gets apriltag position, if the Limelight returns null (tag not found), return early
-    desiredPose = -limelight.getTargetPose(4); //4 is red, blue is 7
+     // Gets apriltag position, if the Limelight returns null (tag not found), return early
+     // 4 is red, blue is 7
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+            desiredPose = -limelight.getTargetPose(4);
+        }
+       if (ally.get() == Alliance.Blue) {
+            desiredPose = -limelight.getTargetPose(7);
+        }
+    }
+    else{
+      //Use red alliance april tag for testing
+      desiredPose = -limelight.getTargetPose(4);
+    }
     if(desiredPose == 0) {
       ChassisSpeeds desiredSpeeds = swerveDrive.inner.swerveController.getRawTargetSpeeds(correctedMoveX, correctedMoveY, correctedTurnTheta);
       swerveDrive.inner.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
