@@ -28,8 +28,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -90,7 +88,6 @@ public class RobotContainer {
 
       
     ));
-          //new JoystickButton(driverController, Constants.OIConstants.PresetButtonIndexA).onTrue(Commands.runOnce(() -> armSubsystem.driveArm(Constants.ArmConstants.armPos) , armSubsystem));
       driverController.button(Constants.OIConstants.kRotateToApriltagButton).onTrue(new ZeroGyroCmd(swerveDrive));
 
       driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
@@ -126,11 +123,10 @@ public class RobotContainer {
   // This must be done before initializing autos
   NamedCommands.registerCommand("PickupCmd", new PickupCmd(armSubsystem, shooterSubsystem));
   //TODO fix this command later
-  // NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive));
+  //NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive));
   NamedCommands.registerCommand("ShooterOutCmd", new ShooterOutCmd(shooterSubsystem));
   NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
 
-  //TODO! Add more auto choices here
   autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
   
   autonChooser.addOption("Safety Auto", new PathPlannerAuto("Safety Auto"));
