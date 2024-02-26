@@ -127,14 +127,16 @@ public class RobotContainer {
   NamedCommands.registerCommand("PickupCmd", new PickupCmd(armSubsystem, shooterSubsystem));
   //TODO fix this command later
   // NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive));
+  NamedCommands.registerCommand("ShooterOutCmd", new ShooterOutCmd(shooterSubsystem));
+  NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
 
   //TODO! Add more auto choices here
   autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
   
-  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
-  autonChooser.addOption("Small Circle Test", new PathPlannerAuto("First Auto"));
-  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
-  // autonChooser.addOption("Small Circle Test", new PathPlannerAuto("Small Circle Test Auto"));
+  autonChooser.addOption("Safety Auto", new PathPlannerAuto("Safety Auto"));
+  autonChooser.addOption("Top Auto", new PathPlannerAuto("Top Auto"));
+  autonChooser.addOption("Center Auto", new PathPlannerAuto("Center Auto"));
+  autonChooser.addOption("Bottom Auto", new PathPlannerAuto("Bottom Auto"));
 
 
   SmartDashboard.putData("autonDropdown", autonChooser);

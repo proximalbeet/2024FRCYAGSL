@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.75
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "LimelightArmCmd"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterOutCmd"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Top shoot 1, pickup 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickupCmd"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Top shoot 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LimelightArmCmd"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterOutCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Top shoot 1, pickup 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroGyroCmd"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

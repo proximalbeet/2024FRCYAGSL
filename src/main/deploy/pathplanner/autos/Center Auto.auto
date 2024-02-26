@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.75
+      "x": 1.3921973789893525,
+      "y": 5.546821904454621
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "shoot note"
+            "pathName": "Ceter to around Path"
           }
         },
         {
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "shoot 1, pickup 2"
+                  "pathName": "Copy of Around to node Path"
                 }
               },
               {
@@ -37,21 +37,21 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "shoot 2"
+            "name": "LimelightArmCmd"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "LimelightShooterCmd"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shoot 1, pickup 2"
+            "name": "ShooterOutCmd"
           }
         }
       ]
