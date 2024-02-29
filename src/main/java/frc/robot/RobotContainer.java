@@ -106,6 +106,10 @@ public class RobotContainer {
       ));
      
       driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
+
+      //Move the arm with the right joystick
+      armSubsystem.driveArm(driverController2.getRawAxis(1));
+
   //  driverController2.button(Constants.OIConstants.kShootoutButton)
   //                             .whileTrue(new ShooterOutCmd(
   //                                     shooterSubsystem, 
