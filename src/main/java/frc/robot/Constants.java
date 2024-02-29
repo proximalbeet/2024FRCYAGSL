@@ -86,8 +86,14 @@ public final class Constants {
 
        //TODO! adjust for shooter
        public static final double SHOOTER_HEIGHT = 0;
+       
     }
 
+    public static final class Roller{
+      public static final double rollerHoldVelocity = 10;
+      public static final double rollerInputVelocity = 80;
+      public static final double rollerOutputVelocity = -80;
+    }
       public static final class Field {
 
         public static final double kBlueSpeakerX = 0;

@@ -7,15 +7,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class PickupCmd extends Command {
   public  ArmSubsystem armSubsystem;
   public  ShooterSubsystem shooterSubsystem;
+  public RollerSubsystem rollerSubsystem;
   /** Creates a new PickupCmd. */
-  public PickupCmd(ArmSubsystem Arm, ShooterSubsystem Shooter) {
+  public PickupCmd(ArmSubsystem Arm, ShooterSubsystem Shooter, RollerSubsystem rollerSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Arm, Shooter);
+    addRequirements(Arm, Shooter, rollerSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,6 +30,7 @@ public class PickupCmd extends Command {
     //TODO find the perfect ground position to pick up from the ground
     armSubsystem.driveArm(0);
     shooterSubsystem.ActivateShooter(Constants.Shooter.leftShooterMotorIn, Constants.Shooter.rightShooterMotorIn);
+    rollerSubsystem.ActivateShooterVelocity(Constants.Roller.rollerInputVelocity);
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +39,7 @@ public class PickupCmd extends Command {
     //TODO find a spot for the arm to sit at when command is done
     shooterSubsystem.DeactivateShooter();
     armSubsystem.driveArm(1000);
+    rollerSubsystem.ActivateShooterVelocity();
 
   }
 

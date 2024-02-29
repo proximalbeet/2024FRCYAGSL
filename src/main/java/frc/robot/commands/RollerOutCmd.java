@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 
-public class ShooterOutCmd extends Command {
-  /** Creates a new ShooterOutCmd. */
-  public ShooterSubsystem shooterSubsystem;
-  public ShooterOutCmd(ShooterSubsystem shooter) {
+public class RollerOutCmd extends Command {
+  /** Creates a new RollerOutCmd. */
+  RollerSubsystem rollerSubsystem;
+  public RollerOutCmd(RollerSubsystem rollerSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(rollerSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,13 +23,14 @@ public class ShooterOutCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     shooterSubsystem.ActivateShooterVelocity(Constants.Shooter.leftShooterMotorOut,Constants.Shooter.rightShooterMotorOut);
+    rollerSubsystem.ActivateShooterVelocity(Constants.Roller.rollerOutputVelocity);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.DeactivateShooter();
+    rollerSubsystem.StopRoller();
+
   }
 
   // Returns true when the command should end.
