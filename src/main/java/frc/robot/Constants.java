@@ -54,10 +54,10 @@ public final class Constants {
     // Pathplanner
   public static final class Swerve {
     /** Max speed of the robot, in meters per second. */
-    public static final double kMaxSpeed = 10;
+    public static final double kMaxSpeed = 15;
 
     /** Max rot speed of drive base in radians per second. */
-    public static final double kRotSpeed =  10;
+    public static final double kRotSpeed =  15;
     //public static final double kRotSpeed =  0.05 * (2 * Math.PI);
 
         //TODO! Configure the path follower

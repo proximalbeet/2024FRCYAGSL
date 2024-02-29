@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -28,6 +30,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public SwerveSubsystem() {
+      // Set the verbosity before initializing the swerve drive.
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try {
       inner = new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve")).createSwerveDrive(Constants.Swerve.kMaxSpeed);
     } catch(Exception e) {

@@ -89,10 +89,10 @@ public class RobotContainer {
 
       
     ));
-      driverController.button(Constants.OIConstants.kRotateToApriltagButton).onTrue(new ZeroGyroCmd(swerveDrive));
+      driverController.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new ZeroGyroCmd(swerveDrive));
 
       driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
-      
+
 
       driverController2.button(Constants.OIConstants.kLimelightArmButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
@@ -106,11 +106,11 @@ public class RobotContainer {
       ));
      
       driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
-      // new JoystickButton(driverController2, Constants.OIConstants.kShootoutButton)
-      //                         .whileTrue(new ActivateShooter(
-      //                                 shooterSubsystem, 
-      //                                 () -> Constants.ShooterConstants.leftPowerN, 
-      //                                 () -> Constants.ShooterConstants.rightPowerN));
+  //  driverController2.button(Constants.OIConstants.kShootoutButton)
+  //                             .whileTrue(new ShooterOutCmd(
+  //                                     shooterSubsystem, 
+  //                                     () -> Constants.ShooterConstants.leftPowerN, 
+  //                                     () -> Constants.ShooterConstants.rightPowerN));
   }
 
   private DoubleSupplier axisDeadband(CommandGenericHID controller, int axis, double deadband, boolean inverted) {

@@ -10,8 +10,8 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class PickupCmd extends Command {
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public  ArmSubsystem armSubsystem;
+  public  ShooterSubsystem shooterSubsystem;
   /** Creates a new PickupCmd. */
   public PickupCmd(ArmSubsystem Arm, ShooterSubsystem Shooter) {
     // Use addRequirements() here to declare subsystem dependencies.

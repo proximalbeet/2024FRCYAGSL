@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   
   public CANSparkMax ArmMotor;
-  public RelativeEncoder throughBoreAbsoluteEncoder;
+  public RelativeEncoder throughBoreAlternateEncoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   SparkPIDController armPID;
   public ArmSubsystem(){
         ArmMotor = new CANSparkMax(9, MotorType.kBrushless);
-        throughBoreAbsoluteEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
+        throughBoreAlternateEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
         armPID = ArmMotor.getPIDController();
         ArmMotor.setIdleMode(IdleMode.kBrake);
 
@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
          * feedback device. Instead, we can set the feedback device to the alternate
          * encoder object
          */
-        armPID.setFeedbackDevice(throughBoreAbsoluteEncoder);
+        armPID.setFeedbackDevice(throughBoreAlternateEncoder);
     
         /**
          * From here on out, code looks exactly like running PID control with the 
@@ -39,7 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
          */ 
     
         // PID coefficients
-        kP = 0.1; 
+        kP = 0.1;
+        //TODO check this later
         kI = 1e-4;
         kD = 1; 
         kIz = 0; 
@@ -69,8 +70,8 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
  
-   //SmartDashboard.putNumber("armPosition", getArmPosition());
-    SmartDashboard.putNumber("armPosition", java.time.Instant.now().getEpochSecond());
+   SmartDashboard.putNumber("armPosition", getArmPosition());
+    //SmartDashboard.putNumber("armPosition", java.time.Instant.now().getEpochSecond());
   }
 
   public void driveArm(double position) {
@@ -79,7 +80,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-  public double getArmPosition() { return throughBoreAbsoluteEncoder.getPosition();}
+  public double getArmPosition() { return throughBoreAlternateEncoder.getPosition();}
 
 }
 

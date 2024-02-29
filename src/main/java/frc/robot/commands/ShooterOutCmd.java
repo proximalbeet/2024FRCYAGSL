@@ -10,7 +10,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOutCmd extends Command {
   /** Creates a new ShooterOutCmd. */
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public  ShooterSubsystem shooterSubsystem;
   public ShooterOutCmd(ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
@@ -23,7 +23,7 @@ public class ShooterOutCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     shooterSubsystem.ActivateShooter(Constants.Shooter.leftShooterMotorOut,Constants.Shooter.rightShooterMotorOut);
+     shooterSubsystem.ActivateShooterVelocity(Constants.Shooter.leftShooterMotorOut,Constants.Shooter.rightShooterMotorOut);
   }
 
   // Called once the command ends or is interrupted.

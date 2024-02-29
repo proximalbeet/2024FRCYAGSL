@@ -4,19 +4,27 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveController;
+import swervelib.imu.SwerveIMU;
 
 public class SwerveJoystickCmd extends Command {
- private SwerveSubsystem swerve;
- //private Limelight limelight;
-  //Rotation3d rotation3d;
-  //SwerveIMU imu;
+  private SwerveSubsystem swerve;
+  Rotation3d rotation3d;
+  SwerveIMU imu;
+  Optional<Alliance> alliance;
+
 
   private DoubleSupplier moveX, moveY, turnTheta;
 
@@ -48,15 +56,23 @@ public class SwerveJoystickCmd extends Command {
   @Override
   public void execute() {
 
+    // Try to get alliance if unavailable
+    if(alliance.isEmpty()) {
+      alliance = DriverStation.getAlliance();
+      if(alliance.isEmpty()) {
+        return;
+      }
+    }
+
     // Post the pose to dashboard
-    // Pose2d pose = swerve.getPose();
+     Pose2d pose = swerve.getPose();
 
-    // imu = swerve.inner.getGyro();
-    // rotation3d = imu.getRawRotation3d();
+     imu = swerve.inner.getGyro();
+     rotation3d = imu.getRawRotation3d();
 
-    // SmartDashboard.putNumber("poseX", pose.getX());
-    // SmartDashboard.putNumber("poseY", pose.getY());
-    // SmartDashboard.putNumber("poseYaw", pose.getRotation().getDegrees());
+    SmartDashboard.putNumber("poseX", pose.getX());
+    SmartDashboard.putNumber("poseY", pose.getY());
+    SmartDashboard.putNumber("poseYaw", pose.getRotation().getDegrees());
 
     // Cube input of XY movement, multiply by max speed
     double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
