@@ -7,14 +7,12 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LimelightArmCmd;
 import frc.robot.commands.PickupCmd;
-import frc.robot.commands.RollerOutCmd;
 import frc.robot.commands.RotateToAprilTagCmd;
 import frc.robot.commands.ShooterOutCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.ZeroGyroCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.RollerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -51,7 +49,6 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final RollerSubsystem rollerSubsystem = new RollerSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick driverController =
@@ -92,18 +89,16 @@ public class RobotContainer {
 
       
     ));
-      driverController.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new ZeroGyroCmd(swerveDrive));
+      driverController.button(Constants.OIConstants.kZeroGyroButton).whileTrue(new ZeroGyroCmd(swerveDrive));
 
-      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem, rollerSubsystem));
-
-      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new RollerOutCmd(rollerSubsystem));
+      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
 
       driverController2.button(Constants.OIConstants.kLimelightArmButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
 
-      driverController2.button(Constants.OIConstants.kRotateToApriltagButton).whileTrue(new RotateToAprilTagCmd(swerveDrive, limelightSubsystem, 
+      driverController2.button(Constants.OIConstants.kRotateToAprilTagButton).whileTrue(new RotateToAprilTagCmd(swerveDrive, limelightSubsystem, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true),
       axisDeadband(driverController, Constants.OIConstants.kRotAxis, Constants.OIConstants.kDriveDeadband, true)

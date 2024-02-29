@@ -34,11 +34,13 @@ public final class Constants {
     public static final int kDriverControllerPort2 = 1;
 
     public static final int kPresetHeadingZeroButton = 2;
-    public static final int kRotateToApriltagButton = 2;
     //TODO find better buttons
-    public static final int kPickupButton = 10;
-    public static final int kShootoutButton = 11;
-    public static final int kLimelightArmButton = 12;
+    public static final int kPickupButton = 2;
+    public static final int kZeroGyroButton = 2;
+    public static final int kShootoutButton = 1;
+    public static final int kLimelightArmButton = 3;
+    public static final int kRotateToAprilTagButton = 4;
+
 
 
     public static final int kDriveXAxis = 1;
@@ -89,11 +91,6 @@ public final class Constants {
        
     }
 
-    public static final class Roller{
-      public static final double rollerHoldVelocity = 10;
-      public static final double rollerInputVelocity = 80;
-      public static final double rollerOutputVelocity = -80;
-    }
       public static final class Field {
 
         public static final double kBlueSpeakerX = 0;
