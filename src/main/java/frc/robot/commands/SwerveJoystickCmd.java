@@ -23,7 +23,7 @@ public class SwerveJoystickCmd extends Command {
   private SwerveSubsystem swerve;
   Rotation3d rotation3d;
   SwerveIMU imu;
-  Optional<Alliance> alliance;
+  // Optional<Alliance> alliance;
 
 
   private DoubleSupplier moveX, moveY, turnTheta;
@@ -57,12 +57,12 @@ public class SwerveJoystickCmd extends Command {
   public void execute() {
 
     // Try to get alliance if unavailable
-    if(alliance.isEmpty()) {
-      alliance = DriverStation.getAlliance();
-      if(alliance.isEmpty()) {
-        return;
-      }
-    }
+    // if(alliance.isEmpty()) {
+    //   alliance = DriverStation.getAlliance();
+    //   if(alliance.isEmpty()) {
+    //     return;
+    //   }
+    // }
 
     // Post the pose to dashboard
      Pose2d pose = swerve.getPose();

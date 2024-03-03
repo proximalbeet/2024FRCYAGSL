@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.io.File;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.hal.HALUtil;
@@ -27,9 +28,13 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive inner;
   public static int robotTeamNumber = HALUtil.getTeamNumber();
   public static Alliance allianceColor;
+  private Pigeon2 _pigeon = new Pigeon2(20);
+  // public static Pigeon2 gyro;
 
   /** Creates a new ExampleSubsystem. */
   public SwerveSubsystem() {
+    //TODO find can id
+    // gyro = new Pigeon2(20);
       // Set the verbosity before initializing the swerve drive.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try {
@@ -63,11 +68,12 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
      // Put the measured team number to the dashboard for diagnostics
     SmartDashboard.putNumber("robotTeamNumber", robotTeamNumber);
+    // inner.setGyro(gyro.getRotation3d());
   }
 
    public Pose2d getPose() { return inner.getPose(); }
   public void resetOdometry(Pose2d pose) { inner.resetOdometry(pose); }
-  public void zeroGyro() { inner.zeroGyro(); }
+   public void zeroGyro() { inner.zeroGyro(); }
   public ChassisSpeeds getRobotVelocity() { return inner.getRobotVelocity(); }
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) { inner.setChassisSpeeds(chassisSpeeds); 
   }

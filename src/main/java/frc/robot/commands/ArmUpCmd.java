@@ -5,33 +5,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class ShooterOutCmd extends Command {
-  /** Creates a new ShooterOutCmd. */
-  public ShooterSubsystem shooterSubsystem;
-  public ShooterOutCmd(ShooterSubsystem shooter) {
+public class ArmUpCmd extends Command {
+  ArmSubsystem armSubsystem;
+  /** Creates a new ArmUpCmd. */
+  public ArmUpCmd(ArmSubsystem Arm) {
+    armSubsystem = Arm;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    shooterSubsystem = shooter;
+    addRequirements(Arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+   
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     shooterSubsystem.ActivateShooter(Constants.Shooter.leftShooterMotorOut,Constants.Shooter.rightShooterMotorOut);
+     armSubsystem.driveArm(0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooterSubsystem.DeactivateShooter();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

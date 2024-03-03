@@ -5,9 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmUpCmd;
 import frc.robot.commands.LimelightArmCmd;
 import frc.robot.commands.PickupCmd;
 import frc.robot.commands.RotateToAprilTagCmd;
+import frc.robot.commands.ShooterInCmd;
 import frc.robot.commands.ShooterOutCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.ZeroGyroCmd;
@@ -23,10 +25,13 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -68,6 +73,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureAutonomous();
+
+    SmartDashboard.putData(new PowerDistribution(30,ModuleType.kRev));
   }
 
   /**
@@ -92,7 +99,8 @@ public class RobotContainer {
       driverController.button(Constants.OIConstants.kZeroGyroButton).whileTrue(new ZeroGyroCmd(swerveDrive));
 
       driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(armSubsystem,shooterSubsystem));
-
+      //TODO change this button
+      driverController2.button(11).whileTrue(new ArmUpCmd(armSubsystem));
       driverController2.button(Constants.OIConstants.kLimelightArmButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
@@ -104,11 +112,12 @@ public class RobotContainer {
       axisDeadband(driverController, Constants.OIConstants.kRotAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
      
-      driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
+      driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterInCmd(shooterSubsystem));
+      driverController2.button(Constants.OIConstants.kShootinButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
 
       //Move the arm with the right joystick
-      armSubsystem.driveArm(driverController2.getRawAxis(1));
-
+    ;
+  armSubsystem.setDefaultCommand(new InstantCommand(() ->   armSubsystem.controlArm(driverController2.getRawAxis(1) * 0.2),armSubsystem));
   //  driverController2.button(Constants.OIConstants.kShootoutButton)
   //                             .whileTrue(new ShooterOutCmd(
   //                                     shooterSubsystem, 
@@ -133,7 +142,7 @@ public class RobotContainer {
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
-  NamedCommands.registerCommand("ShooterOutCmd", new ShooterOutCmd(shooterSubsystem));
+  NamedCommands.registerCommand("ShooterOutCmd", new ShooterInCmd(shooterSubsystem));
   NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
 
   autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
@@ -142,7 +151,7 @@ public class RobotContainer {
   autonChooser.addOption("Top Auto", new PathPlannerAuto("Top Auto"));
   autonChooser.addOption("Center Auto", new PathPlannerAuto("Center Auto"));
   autonChooser.addOption("Bottom Auto", new PathPlannerAuto("Bottom Auto"));
-
+  autonChooser.addOption("Safer Safety Auto", new PathPlannerAuto("Safer Safety Auto"));
 
   SmartDashboard.putData("autonDropdown", autonChooser);
 }
@@ -154,6 +163,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Commands.print("no auton");
+    return autonChooser.getSelected();
   }
 }

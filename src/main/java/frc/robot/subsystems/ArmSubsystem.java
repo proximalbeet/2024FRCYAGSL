@@ -23,7 +23,9 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem(){
         ArmMotor = new CANSparkMax(9, MotorType.kBrushless);
         throughBoreAlternateEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
+throughBoreAlternateEncoder.setInverted(true);
         armPID = ArmMotor.getPIDController();
+        
         ArmMotor.setIdleMode(IdleMode.kBrake);
 
         /**
@@ -39,15 +41,16 @@ public class ArmSubsystem extends SubsystemBase {
          */ 
     
         // PID coefficients
-        kP = 0.1;
+        kP = 0.8;
         //TODO check this later
-        kI = 1e-4;
-        kD = 1; 
+        kI = 0;
+        kD = 0; 
         kIz = 0; 
         kFF = 0; 
         kMaxOutput = 1; 
         kMinOutput = -1;
     
+      
         // set PID coefficients
         armPID.setP(kP);
         armPID.setI(kI);
@@ -75,8 +78,16 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void driveArm(double position) {
+    //TODO come back to
+   
 
     armPID.setReference(position, CANSparkMax.ControlType.kPosition);
+
+  }
+
+   public void controlArm(double percent) {
+
+    ArmMotor.set(percent);
 
   }
 

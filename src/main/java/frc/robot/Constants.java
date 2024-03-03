@@ -35,11 +35,12 @@ public final class Constants {
 
     public static final int kPresetHeadingZeroButton = 2;
     //TODO find better buttons
-    public static final int kPickupButton = 2;
+    public static final int kPickupButton = 3;
     public static final int kZeroGyroButton = 2;
     public static final int kShootoutButton = 1;
-    public static final int kLimelightArmButton = 3;
-    public static final int kRotateToAprilTagButton = 4;
+    public static final int kShootinButton = 2;
+    public static final int kLimelightArmButton = 4;
+    public static final int kRotateToAprilTagButton = 5;
 
 
 
@@ -56,10 +57,10 @@ public final class Constants {
     // Pathplanner
   public static final class Swerve {
     /** Max speed of the robot, in meters per second. */
-    public static final double kMaxSpeed = 15;
+    public static final double kMaxSpeed = 17;
 
     /** Max rot speed of drive base in radians per second. */
-    public static final double kRotSpeed =  15;
+    public static final double kRotSpeed =  17;
     //public static final double kRotSpeed =  0.05 * (2 * Math.PI);
 
         //TODO! Configure the path follower
@@ -80,11 +81,11 @@ public final class Constants {
     }
     public static final class Shooter {
       //TODO find replacement numbers for shooter motors
-      public static final double leftShooterMotorIn = 40;
-      public static final double rightShooterMotorIn = 40;
+      public static final double leftShooterMotorIn = 1;
+      public static final double rightShooterMotorIn = 1;
 
-      public static final double leftShooterMotorOut = -40;
-      public static final double rightShooterMotorOut = -40;
+      public static final double leftShooterMotorOut = -1;
+      public static final double rightShooterMotorOut = -1;
 
        //TODO! adjust for shooter
        public static final double SHOOTER_HEIGHT = 0;

@@ -27,6 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // encoderRightShooter = rightShooter.getEncoder();
 
     pidLeftShooter = leftShooter.getPIDController();
+  
     pidRightShooter = rightShooter.getPIDController();
 
     rightShooter.setInverted(true);
