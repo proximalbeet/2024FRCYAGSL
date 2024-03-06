@@ -14,13 +14,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
-    public CANSparkMax leftShooter;
-    public CANSparkMax rightShooter;
+    public CANSparkMax leftShooter, rightShooter;
     private SparkPIDController pidLeftShooter, pidRightShooter;
     //private RelativeEncoder encoderLeftShooter, encoderRightShooter;
 
   public ShooterSubsystem() {
+    //TODO create a constant
     leftShooter = new CANSparkMax(10, MotorType.kBrushless);
+    //TODO create a constant
     rightShooter = new CANSparkMax(11, MotorType.kBrushless);
     
     // encoderLeftShooter = leftShooter.getEncoder();

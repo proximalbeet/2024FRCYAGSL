@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4274465691788532,
+      "y": 2.3601727203454415
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmUpCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterOutCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Safe Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

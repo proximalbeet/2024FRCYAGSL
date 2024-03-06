@@ -74,7 +74,8 @@ public final class Constants {
                 new PIDConstants(1, 0, 0.01),
                 new PIDConstants(1, 0, 0.01),
                 kMaxSpeed,
-                //TODO dont know if this needs to be updated later or not
+                //TODO dont know if this needs to be updated later or 
+                //TODO ask nate what this does
                 14.778574017813,
                 new ReplanningConfig(false, true)
             );

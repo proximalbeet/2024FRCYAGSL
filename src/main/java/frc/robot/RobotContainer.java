@@ -6,18 +6,17 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmUpCmd;
-import frc.robot.commands.LimelightArmCmd;
+import frc.robot.commands.MiscCommands.LimelightArmCmd;
 import frc.robot.commands.PickupCmd;
-import frc.robot.commands.RotateToAprilTagCmd;
+import frc.robot.commands.MiscCommands.RotateToAprilTagCmd;
 import frc.robot.commands.ShooterInCmd;
 import frc.robot.commands.ShooterOutCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.commands.ZeroGyroCmd;
+import frc.robot.commands.MiscCommands.ZeroGyroCmd;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-
+import frc.robot.subsystems.Misc.LimelightSubsystem;
 
 import java.util.function.DoubleSupplier;
 
@@ -142,8 +141,10 @@ public class RobotContainer {
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
-  NamedCommands.registerCommand("ShooterOutCmd", new ShooterInCmd(shooterSubsystem));
+  NamedCommands.registerCommand("ShooterOutCmd", new ShooterInCmd(shooterSubsystem).withTimeout(2));
   NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
+  NamedCommands.registerCommand("ArmUpCmd", new ArmUpCmd(armSubsystem).withTimeout(2));
+
 
   autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
   
@@ -152,7 +153,7 @@ public class RobotContainer {
   autonChooser.addOption("Center Auto", new PathPlannerAuto("Center Auto"));
   autonChooser.addOption("Bottom Auto", new PathPlannerAuto("Bottom Auto"));
   autonChooser.addOption("Safer Safety Auto", new PathPlannerAuto("Safer Safety Auto"));
-
+  autonChooser.addOption("Score Safer Safety Auto", new PathPlannerAuto("Score Safer Safety Auto"));
   SmartDashboard.putData("autonDropdown", autonChooser);
 }
 

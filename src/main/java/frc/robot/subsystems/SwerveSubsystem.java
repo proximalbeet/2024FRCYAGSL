@@ -28,6 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive inner;
   public static int robotTeamNumber = HALUtil.getTeamNumber();
   public static Alliance allianceColor;
+  //TODO create a constant
   private Pigeon2 _pigeon = new Pigeon2(20);
   // public static Pigeon2 gyro;
 
