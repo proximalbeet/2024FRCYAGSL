@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
+//TODO marked for removal
 public class ShooterInCmd extends Command {
   /** Creates a new ShooterOutCmd. */
   public ShooterSubsystem shooterSubsystem;

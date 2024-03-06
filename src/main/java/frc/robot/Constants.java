@@ -90,23 +90,28 @@ public final class Constants {
 
        //TODO! adjust for shooter
        public static final double SHOOTER_HEIGHT = 0;
+
+       public static final double DEFAULT_ANGLE = 0.34;
+
+       public static final double SPIN_UP_TIME = 0.25;
        
     }
 
-      public static final class Field {
+     public static final class Field {
 
-        public static final double kBlueSpeakerX = 0;
-        public static final double kBlueSpeakerY = 5.547879;
-        public static final double kBlueSpeakerZ = 2.032004;
+      public static final double kBlueSpeakerX = 0;
+      public static final double kBlueSpeakerY = 5.547879;
+      public static final double kBlueSpeakerZ = 2.032004;
 
-        public static final double kRedSpeakerX = 16.57938;
-        public static final double kRedSpeakerY = 5.547879;
-        public static final double kRedSpeakerZ = 2.032004;
-      }
+      public static final double kRedSpeakerX = 16.57938;
+      public static final double kRedSpeakerY = 5.547879;
+      public static final double kRedSpeakerZ = 2.032004;
+    }
 
-          public static final class Lighting {
-            public static final int lightPort = 0;
-          }
+    public static final class Lighting {
+      public static final int lightPort = 0;
+    }
 
+    
 
 }

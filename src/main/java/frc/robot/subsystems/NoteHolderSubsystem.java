@@ -21,16 +21,13 @@ public class NoteHolderSubsystem extends SubsystemBase {
     pidRoller = rollerMotor.getPIDController();
   }
 
-  public void ActivateShooterVelocity(double rmpRoler){
+  public void ActivateHolderVelocity(double rmpRoler){
     pidRoller.setReference(rmpRoler, ControlType.kVelocity);
   }
 
-  public void ActivateShooterVelocity(){
-    //TODO create a constant
-    pidRoller.setReference(0.2, ControlType.kVelocity);
-  }
 
-  public void StopRoller(){
+
+  public void StopHolder(){
     rollerMotor.set(0);
   }
   @Override

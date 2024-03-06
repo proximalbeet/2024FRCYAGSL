@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -23,7 +24,7 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem(){
         ArmMotor = new CANSparkMax(9, MotorType.kBrushless);
         throughBoreAlternateEncoder = ArmMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,8192);
-throughBoreAlternateEncoder.setInverted(true);
+        throughBoreAlternateEncoder.setInverted(true);
         armPID = ArmMotor.getPIDController();
         
         ArmMotor.setIdleMode(IdleMode.kBrake);
@@ -93,6 +94,12 @@ throughBoreAlternateEncoder.setInverted(true);
 
   public double getArmPosition() { return throughBoreAlternateEncoder.getPosition();}
 
+  public boolean isInRange(Double targetAngle){
+    double minAngle = targetAngle - targetAngle * 0.05;
+    double maxAngle = targetAngle + targetAngle * 0.05;
+
+    return getArmPosition() > minAngle && getArmPosition() < maxAngle;
+  }
 }
 
  // /** Creates a new Arm. */null

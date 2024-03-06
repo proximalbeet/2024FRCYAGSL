@@ -12,9 +12,9 @@ public class ShooterOutCmd extends Command {
   /** Creates a new ShooterOutCmd. */
   public ShooterSubsystem shooterSubsystem;
   public ShooterOutCmd(ShooterSubsystem shooter) {
+        shooterSubsystem = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
-    shooterSubsystem = shooter;
   }
 
   // Called when the command is initially scheduled.

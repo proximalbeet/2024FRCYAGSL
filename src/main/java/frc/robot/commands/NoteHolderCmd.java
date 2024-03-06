@@ -7,13 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.NoteHolderSubsystem;
 
-public class NoteHolderOutCmd extends Command {
-  public NoteHolderSubsystem holderSubsystem;
-  /** Creates a new NoteHolderOutCmd. */
-  public NoteHolderOutCmd(NoteHolderSubsystem Holder) {
-    holderSubsystem = Holder;
+public class NoteHolderCmd extends Command {
+    public NoteHolderSubsystem noteHolderSubsystem;
+
+  /** Creates a new NoteHolderCmd. */
+  public NoteHolderCmd(NoteHolderSubsystem holder ) {
+    noteHolderSubsystem = holder;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Holder);
+    addRequirements(holder);
   }
 
   // Called when the command is initially scheduled.
@@ -23,14 +25,13 @@ public class NoteHolderOutCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //TODO create a constant
-    holderSubsystem.ActivateShooterVelocity(1);
+    noteHolderSubsystem.ActivateHolderVelocity(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    holderSubsystem.StopRoller();
+    noteHolderSubsystem.StopHolder();
   }
 
   // Returns true when the command should end.

@@ -27,13 +27,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   intakeMotorBottom.setInverted(true);
  }
-   public void ActivateShooterVelocity(double rmpRoler){
-    pidIntakeTop.setReference(rmpRoler, ControlType.kVelocity);
-    pidIntakeBottom.setReference(rmpRoler, ControlType.kVelocity);
+   public void ActivateIntakeVelocity(double rpmIntakeTop, double rmpIntakeBottom){
+    pidIntakeTop.setReference(rpmIntakeTop, ControlType.kVelocity);
+    pidIntakeBottom.setReference(rmpIntakeBottom, ControlType.kVelocity);
   }
 
 
-  public void StopRoller(){
+  public void StopIntake(){
     intakeMotorTop.set(0);
     intakeMotorBottom.set(0);
   }

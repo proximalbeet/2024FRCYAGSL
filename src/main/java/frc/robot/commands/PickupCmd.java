@@ -6,18 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class PickupCmd extends Command {
-  public ArmSubsystem armSubsystem;
-  public ShooterSubsystem shooterSubsystem;
+  public IntakeSubsystem intakeSubsystem;
   /** Creates a new PickupCmd. */
-  public PickupCmd(ArmSubsystem Arm, ShooterSubsystem Shooter) {
+  public PickupCmd(IntakeSubsystem Intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    armSubsystem = Arm;
-    shooterSubsystem = Shooter;
-    addRequirements(Arm, Shooter);
+    intakeSubsystem = Intake;
+    addRequirements(Intake);
   }
 
   // Called when the command is initially scheduled.
@@ -28,16 +25,13 @@ public class PickupCmd extends Command {
   @Override
   public void execute() {
     //TODO create a constant
-    armSubsystem.driveArm(0.17);
-    shooterSubsystem.ActivateShooter(Constants.Shooter.leftShooterMotorIn, Constants.Shooter.rightShooterMotorIn);
+    intakeSubsystem.ActivateIntakeVelocity(Constants.Shooter.leftShooterMotorIn, Constants.Shooter.rightShooterMotorIn);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.DeactivateShooter();
-    //TODO create a constant
-    armSubsystem.driveArm(0.2);
+    intakeSubsystem.StopIntake();
   }
 
   // Returns true when the command should end.
