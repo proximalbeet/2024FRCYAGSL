@@ -6,101 +6,129 @@ package frc.robot.commands.MiscCommands;
 
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Misc.LimelightSubsystem;
-import swervelib.SwerveController;
 import frc.robot.Constants;
+import frc.robot.subsystems.Misc.LimelightSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+
 
 public class RotateToAprilTagCmd extends Command {
-  /** Creates a new RotateToAprilTagCmd. */
-  private DoubleSupplier moveX, moveY, turnTheta;
-  double desiredPose;
-  SwerveSubsystem swerveDrive;
+
   LimelightSubsystem limelight;
+  SwerveSubsystem swerveDrive;
+  Pose2d measuredPose;
+  Pose2d currentPose;
+  private DoubleSupplier moveX, moveY;
+  double lastUpdateTime;
+  Rotation2d desiredYaw;
 
-
-  //public RotateToAprilTagCmd() {
-
-  
-    /** Beta command for aiming at an apriltag. */
-  public RotateToAprilTagCmd(SwerveSubsystem swerveDrive, LimelightSubsystem limelight, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier rotate) {
-    this.swerveDrive = swerveDrive;
+  /** Drive command for aiming at the speaker while moving. 
+   * measuredPose = pose measured from Limelight
+   * currentPose = the pose the robot believes it is at
+   * 
+   * moveX = main driver x axis joystick inputs
+   * moveY = main driver y axis joystick inputs
+  */
+  public RotateToAprilTagCmd(LimelightSubsystem limelight, SwerveSubsystem swerveDrive, DoubleSupplier vX, DoubleSupplier vY) {
     this.limelight = limelight;
-  
+    this.swerveDrive = swerveDrive;
+
+    measuredPose = limelight.getMeasuredPose();
+    currentPose = swerveDrive.getPose();
+
     moveX = vX;
     moveY = vY;
-    turnTheta = rotate;
-  
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveDrive, limelight);
+    addRequirements(limelight, swerveDrive);
+  }
 
-    }
-  
-
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
-    swerveDrive.inner.setHeadingCorrection(true);
+  public void initialize() {
+    // allows the robot to use rotate to pose
+    swerveDrive.setHeadingCorrection(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Sets time measurement recieved
+    double timestamp = Timer.getFPGATimestamp() - limelight.getLatency();
+
+    // Makes joystick inputs useable for command
     double correctedMoveX = Math.pow(moveX.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
     double correctedMoveY = Math.pow(moveY.getAsDouble(), 3) * Constants.Swerve.kMaxSpeed;
-    double correctedTurnTheta = turnTheta.getAsDouble() * Constants.Swerve.kRotSpeed;
+    
+    // Only check limelight once per second
+    if (timestamp - lastUpdateTime >= 1) {
+      measuredPose = limelight.getMeasuredPose();
 
-     // Gets apriltag position, if the Limelight returns null (tag not found), return early
-     // 4 is red, blue is 7
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            desiredPose = -limelight.getTargetPose(4);
-        }
-       if (ally.get() == Alliance.Blue) {
-            desiredPose = -limelight.getTargetPose(7);
-        }
+      // Two tag measuring is stable, one tag measuring is not
+      if(limelight.hasTarget() && limelight.tagCount() >= 2) {
+        swerveDrive.addVisionMeasurement(new Pose2d(measuredPose.getX(), measuredPose.getY(), measuredPose.getRotation()), timestamp, VecBuilder.fill(0.01, 0.01, 999999999));
+        lastUpdateTime = timestamp;
+     }
     }
-    else{
-      //Use red alliance april tag for testing
-      desiredPose = -limelight.getTargetPose(4);
+
+    swerveDrive.updatePose();
+
+    // Relative positions from the robot to the speaker.
+    double offsetX;
+    double offsetY;
+    double offsetZ;
+
+    // Can't aim towards our shooter if we don't know what team we're on.
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+    if(alliance.isEmpty()) {
+      return;
     }
-    if(desiredPose == 0) {
-      ChassisSpeeds desiredSpeeds = swerveDrive.inner.swerveController.getRawTargetSpeeds(correctedMoveX, correctedMoveY, correctedTurnTheta);
-      swerveDrive.inner.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
 
+    // Calculate XY offset between robot and speaker,
+    // convert to angle, then convert to field-centric angle
+    if(alliance.get() == Alliance.Blue) {
+      offsetX = Constants.Field.BLUE_SPEAKER_X - currentPose.getX();
+      offsetY = Constants.Field.BLUE_SPEAKER_Y - currentPose.getY();
+      offsetZ = Constants.Field.BLUE_SPEAKER_Z - Constants.Shooter.SHOOTER_HEIGHT;
+    } else {
+      offsetX = Constants.Field.RED_SPEAKER_X - currentPose.getX();
+      offsetY = Constants.Field.RED_SPEAKER_Y - currentPose.getY();
+      offsetZ = Constants.Field.RED_SPEAKER_Z - Constants.Shooter.SHOOTER_HEIGHT;
     }
-    else {
-     SmartDashboard.putNumber("testDesiredPose", desiredPose);
 
-     double desiredYaw = desiredPose;
+    // calculate direct distance and ground distance to the speaker
+    double floorDistance = Math.hypot(offsetX, offsetY);
+    double directDistance = Math.hypot(floorDistance, offsetZ);
 
-     ChassisSpeeds desiredSpeeds = swerveDrive.inner.swerveController.getRawTargetSpeeds(
-       correctedMoveX, correctedMoveY,
-       swerveDrive.inner.getPose().getRotation().getRadians() + (desiredYaw * Math.PI/180),
-       swerveDrive.inner.getPose().getRotation().getRadians()
-     );
-     swerveDrive.inner.drive(SwerveController.getTranslation2d(desiredSpeeds), desiredSpeeds.omegaRadiansPerSecond, true, false);
-
+    // calculate pitch and yaw from the shooter to the speaker
+    desiredYaw = new Rotation2d(offsetX, offsetY);
+    
+    // Deadband so we don't oscillate
+    if (Math.abs(currentPose.getRotation().getDegrees() - desiredYaw.getDegrees()) > 0.25) {
+      swerveDrive.driveAbsolute(correctedMoveX, correctedMoveY, desiredYaw);
     }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
-    swerveDrive.inner.setHeadingCorrection(false);
+  public void end(boolean interrupted) {
+    swerveDrive.setHeadingCorrection(false);
   }
 
-  // Returns true when the command should end.
+  // Returns true when the command should end during autonomous.
   @Override
   public boolean isFinished() {
-    return false;
+    if (DriverStation.isAutonomousEnabled() && Math.abs(swerveDrive.getYaw().getDegrees() - desiredYaw.getDegrees()) > 0.25) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

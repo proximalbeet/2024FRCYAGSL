@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase {
   /** Creates a new Limelight. */
@@ -21,8 +20,9 @@ public class LimelightSubsystem extends SubsystemBase {
 
   // Counts the number of tags seen by the limelight
   public int tagCount() {
-    LimelightHelpers.LimelightResults llResults = LimelightHelpers.getLatestResults("");
-    return llResults.targetingResults.targets_Fiducials.length;
+    double tagCountDouble = networkTable.getEntry("botpose_wpiblue").getDoubleArray(new double[11])[7];
+    int tagCountInt = (int) tagCountDouble;
+    return tagCountInt;
   }
 
   // Turns off the limelight LEDs and sets the pipeline to 4

@@ -99,13 +99,13 @@ public final class Constants {
 
      public static final class Field {
 
-      public static final double kBlueSpeakerX = 0;
-      public static final double kBlueSpeakerY = 5.547879;
-      public static final double kBlueSpeakerZ = 2.032004;
+      public static final double BLUE_SPEAKER_X = 0;
+      public static final double BLUE_SPEAKER_Y = 5.547879;
+      public static final double BLUE_SPEAKER_Z = 2.032004;
 
-      public static final double kRedSpeakerX = 16.57938;
-      public static final double kRedSpeakerY = 5.547879;
-      public static final double kRedSpeakerZ = 2.032004;
+      public static final double RED_SPEAKER_X = 16.57938;
+      public static final double RED_SPEAKER_Y = 5.547879;
+      public static final double RED_SPEAKER_Z = 2.032004;
     }
 
     public static final class Lighting {

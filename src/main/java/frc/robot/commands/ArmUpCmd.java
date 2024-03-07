@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmUpCmd extends Command {
@@ -26,7 +25,7 @@ public class ArmUpCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     armSubsystem.driveArm(Constants.Shooter.DEFAULT_ANGLE);
+     armSubsystem.driveArm(0.34);
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +35,6 @@ public class ArmUpCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armSubsystem.getArmPosition() > Constants.Shooter.DEFAULT_ANGLE;
+    return armSubsystem.getArmPosition() > .34;
   }
 }

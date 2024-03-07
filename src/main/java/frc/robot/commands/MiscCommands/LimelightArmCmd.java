@@ -106,13 +106,13 @@ public class LimelightArmCmd extends Command {
     // Calculate XY offset between robot and speaker,
     // convert to angle, then convert to field-centric angle
     if(alliance.get() == Alliance.Blue) {
-      offsetX = Constants.Field.kBlueSpeakerX - pose.getX();
-      offsetY = Constants.Field.kBlueSpeakerY - pose.getY();
-      offsetZ = Constants.Field.kBlueSpeakerZ - Constants.Shooter.SHOOTER_HEIGHT;
+      offsetX = Constants.Field.BLUE_SPEAKER_X - pose.getX();
+      offsetY = Constants.Field.BLUE_SPEAKER_Y - pose.getY();
+      offsetZ = Constants.Field.BLUE_SPEAKER_Z - Constants.Shooter.SHOOTER_HEIGHT;
     } else {
-      offsetX = Constants.Field.kRedSpeakerX - pose.getX();
-      offsetY = Constants.Field.kRedSpeakerY - pose.getY();
-      offsetZ = Constants.Field.kRedSpeakerZ - Constants.Shooter.SHOOTER_HEIGHT;
+      offsetX = Constants.Field.RED_SPEAKER_X - pose.getX();
+      offsetY = Constants.Field.RED_SPEAKER_Y - pose.getY();
+      offsetZ = Constants.Field.RED_SPEAKER_Z - Constants.Shooter.SHOOTER_HEIGHT;
     }
 
     SmartDashboard.putNumber("offsetX", offsetX);

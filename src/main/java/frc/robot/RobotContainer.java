@@ -123,7 +123,7 @@ public class RobotContainer {
 
       //Move the arm with the right joystick
     ;
-  armSubsystem.setDefaultCommand(new InstantCommand(() ->   armSubsystem.controlArm(driverController2.getRawAxis(1) * 0.2),armSubsystem));
+  armSubsystem.setDefaultCommand(new InstantCommand(() -> armSubsystem.controlArm(driverController2.getRawAxis(1) * 0.2),armSubsystem));
   //  driverController2.button(Constants.OIConstants.kShootoutButton)
   //                             .whileTrue(new ShooterOutCmd(
   //                                     shooterSubsystem, 
