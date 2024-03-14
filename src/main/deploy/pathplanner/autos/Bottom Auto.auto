@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7206357269857403,
-      "y": 4.3245400776515845
+      "x": 0.63,
+      "y": 4.46
     },
     "rotation": 120.82766229986805
   },
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "LimelightArmCmd"
+            "name": "ScoringSequentialCmd"
           }
         },
         {
@@ -24,19 +24,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "ShooterOutCmd"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Bottom shoot 1, pickup 2"
+                  "pathName": "Bottom to Note"
                 }
               },
               {
@@ -51,13 +45,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom shoot 2"
+            "pathName": "Note to Bottom"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "LimelightArmCmd"
+            "name": "ScoringSequentialCmd"
           }
         },
         {
@@ -67,15 +61,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "ShooterOutCmd"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Bottom shoot 1, pickup 2"
+            "pathName": "Bottom to IsFinished"
           }
         },
         {

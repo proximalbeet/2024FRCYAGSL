@@ -71,12 +71,12 @@ public final class Constants {
                 new PIDConstants(4.5, 0, 0.05),
                 new PIDConstants(3.14, 0, 0.1),
                 */
-                new PIDConstants(1, 0, 0.01),
-                new PIDConstants(1, 0, 0.01),
-                kMaxSpeed,
+                new PIDConstants(4.5, 0, 0.06),
+                new PIDConstants(5.5, 0, 0.01),
                 //TODO dont know if this needs to be updated later or 
-                //TODO ask nate what this does
-                14.778574017813,
+                //TODO ask nate what this does (Idk either)
+                4.5,
+                0.4,
                 new ReplanningConfig(false, true)
             );
     }

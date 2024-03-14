@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmUpCmd;
-import frc.robot.commands.MiscCommands.LimelightArmCmd;
 import frc.robot.commands.PickupCmd;
 import frc.robot.commands.ScoringSequentialCmd;
 import frc.robot.commands.MiscCommands.RotateToAprilTagCmd;
@@ -101,34 +100,30 @@ public class RobotContainer {
 
       
     ));
+      //Comp buttons
       driverController.button(Constants.OIConstants.kZeroGyroButton).whileTrue(new ZeroGyroCmd(swerveDrive));
-
-      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(intakeSubsystem));
-      // //TODO change this button
-       driverController2.button(11).whileTrue(new ArmUpCmd(armSubsystem));
+    
       driverController2.button(12).whileTrue(new ScoringSequentialCmd(armSubsystem, shooterSubsystem, noteHolderSubsystem));
-      // driverController2.button(Constants.OIConstants.kLimelightArmButton).whileTrue(new LimelightArmCmd(limelightSubsystem, swerveDrive, 
-      // axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
-      // axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
-      // ));
 
-      // driverController2.button(Constants.OIConstants.kRotateToAprilTagButton).whileTrue(new RotateToAprilTagCmd(swerveDrive, limelightSubsystem, 
-      // axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
-      // axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true),
-      // axisDeadband(driverController, Constants.OIConstants.kRotAxis, Constants.OIConstants.kDriveDeadband, true)
-      // ));
+      driverController2.button(Constants.OIConstants.kPickupButton).whileTrue(new PickupCmd(intakeSubsystem, armSubsystem, noteHolderSubsystem));
+    
+      driverController2.button(Constants.OIConstants.kRotateToAprilTagButton).whileTrue(new RotateToAprilTagCmd(limelightSubsystem, swerveDrive, 
+      axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
+      axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)  
+      ));
      
+
+
+      //Test buttons
       driverController2.button(Constants.OIConstants.kShootoutButton).whileTrue(new ShooterInCmd(shooterSubsystem));
+
       driverController2.button(Constants.OIConstants.kShootinButton).whileTrue(new ShooterOutCmd(shooterSubsystem));
+      
+      driverController2.button(11).whileTrue(new ArmUpCmd(armSubsystem));
 
       //Move the arm with the right joystick
-    ;
-  armSubsystem.setDefaultCommand(new InstantCommand(() -> armSubsystem.controlArm(driverController2.getRawAxis(1) * 0.2),armSubsystem));
-  //  driverController2.button(Constants.OIConstants.kShootoutButton)
-  //                             .whileTrue(new ShooterOutCmd(
-  //                                     shooterSubsystem, 
-  //                                     () -> Constants.ShooterConstants.leftPowerN, 
-  //                                     () -> Constants.ShooterConstants.rightPowerN));
+      armSubsystem.setDefaultCommand(new InstantCommand(() -> armSubsystem.controlArm(driverController2.getRawAxis(1) * 0.2),armSubsystem));
+
   }
 
   private DoubleSupplier axisDeadband(CommandGenericHID controller, int axis, double deadband, boolean inverted) {
@@ -143,14 +138,19 @@ public class RobotContainer {
  private void configureAutonomous() {
   // Register named commands for pathplanner
   // This must be done before initializing autos
-  NamedCommands.registerCommand("PickupCmd", new PickupCmd(intakeSubsystem));
-  NamedCommands.registerCommand("LimelightArmCmd", new LimelightArmCmd(limelightSubsystem, swerveDrive, 
+  NamedCommands.registerCommand("PickupCmd", new PickupCmd(intakeSubsystem, armSubsystem, noteHolderSubsystem));
+
+  NamedCommands.registerCommand("ScoringSequentialCmd", new ScoringSequentialCmd(armSubsystem, shooterSubsystem, noteHolderSubsystem));
+
+  NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
+
+  NamedCommands.registerCommand("RotateToAprilTagCmd", new RotateToAprilTagCmd(limelightSubsystem, swerveDrive, 
       axisDeadband(driverController, Constants.OIConstants.kDriveXAxis, Constants.OIConstants.kDriveDeadband, true), 
       axisDeadband(driverController, Constants.OIConstants.kDriveYAxis, Constants.OIConstants.kDriveDeadband, true)
       ));
-  NamedCommands.registerCommand("ShooterOutCmd", new ShooterInCmd(shooterSubsystem).withTimeout(2));
-  NamedCommands.registerCommand("ZeroGyroCmd", new ZeroGyroCmd(swerveDrive));
-  NamedCommands.registerCommand("ArmUpCmd", new ArmUpCmd(armSubsystem).withTimeout(2));
+ 
+      // NamedCommands.registerCommand("ShooterOutCmd", new ShooterInCmd(shooterSubsystem).withTimeout(2));
+  // NamedCommands.registerCommand("ArmUpCmd", new ArmUpCmd(armSubsystem).withTimeout(2));
 
 
   autonChooser.setDefaultOption("NONE", Commands.print("No autonomous command selected!"));
@@ -159,8 +159,7 @@ public class RobotContainer {
   autonChooser.addOption("Top Auto", new PathPlannerAuto("Top Auto"));
   autonChooser.addOption("Center Auto", new PathPlannerAuto("Center Auto"));
   autonChooser.addOption("Bottom Auto", new PathPlannerAuto("Bottom Auto"));
-  autonChooser.addOption("Safer Safety Auto", new PathPlannerAuto("Safer Safety Auto"));
-  autonChooser.addOption("Score Safer Safety Auto", new PathPlannerAuto("Score Safer Safety Auto"));
+
   SmartDashboard.putData("autonDropdown", autonChooser);
 }
 

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3921973789893525,
-      "y": 5.546821904454621
+      "x": 1.2630356689284812,
+      "y": 5.55593454044051
     },
     "rotation": 180.0
   },
@@ -12,9 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Ceter to around Path"
+            "name": "ScoringSequentialCmd"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
           }
         },
         {
@@ -24,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Around to node Path"
+                  "pathName": "Middle to Note"
                 }
               },
               {
@@ -37,9 +43,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "LimelightArmCmd"
+            "pathName": "Note to Middle"
           }
         },
         {
@@ -51,7 +57,19 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterOutCmd"
+            "name": "ScoringSequentialCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle to Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroGyroCmd"
           }
         }
       ]

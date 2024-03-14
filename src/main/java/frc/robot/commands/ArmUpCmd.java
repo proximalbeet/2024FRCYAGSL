@@ -25,16 +25,18 @@ public class ArmUpCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     armSubsystem.driveArm(0.34);
+     armSubsystem.driveArm(0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.driveArm(0.15);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armSubsystem.getArmPosition() > .34;
+    return armSubsystem.getArmPosition() > .2;
   }
 }
